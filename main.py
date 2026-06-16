@@ -1,8 +1,11 @@
 import requests
 from utils import show_status
 
-response = requests.get("https://www.example.com")
+url = "https://www.example.com"
+response = requests.get(url)
 
-print(response.status_code)
-print(show_status(response.status_code))
+print("请求地址：", url)
+print("状态码：", response.status_code)
+print("状态说明：", show_status(response.status_code))
+print("网页前 100 个字符：")
 print(response.text[:100])
