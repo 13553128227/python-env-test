@@ -1,0 +1,6 @@
+[
+  {
+    "user_message": "API 是什么",
+    "reply": "API 是程序之间互相通信的接口，常用 JSON 传递数据。"
+  }
+]

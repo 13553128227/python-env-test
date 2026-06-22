@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from history_tools import load_history, save_message
 from models import ChatRequest, ChatResponse
 from services import generate_reply
 
@@ -24,7 +25,17 @@ def hello(name: str = "World"):
 def chat(request: ChatRequest):
     reply = generate_reply(request.message)
 
+    save_message(
+        user_message=request.message,
+        reply=reply
+    )
+
     return ChatResponse(
         user_message=request.message,
         reply=reply
     )
+
+
+@router.get("/history")
+def history():
+    return load_history()
