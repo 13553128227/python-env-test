@@ -3,7 +3,7 @@ import requests
 url = "http://127.0.0.1:8000/chat"
 
 payload = {
-    "message": "这是 requests 发来的消息"
+    "message": "API 是什么"
 }
 
 response = requests.post(url, json=payload)
