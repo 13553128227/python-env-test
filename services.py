@@ -1,16 +1,25 @@
+import os
+from pathlib import Path
+
+from openai import OpenAI
+from dotenv import load_dotenv
+
+PROJECT_DIR = Path(__file__).resolve().parent
+load_dotenv(PROJECT_DIR / ".env")
+
+client = OpenAI(
+    api_key=os.getenv("AI_API_KEY"),
+    base_url=os.getenv("AI_BASE_URL")
+)
+
+
 def generate_reply(message: str) -> str:
-    message = message.strip()
+    response = client.chat.completions.create(
+        model=os.getenv("AI_MODEL"),
+        messages=[
+            {"role": "system", "content": "你是一个Python学习助手"},
+            {"role": "user", "content": message}
+        ]
+    )
 
-    if message == "":
-        return "你还没有输入内容。"
-
-    if "你好" in message:
-        return "你好！我是一个模拟 AI 助手。"
-
-    if "你是谁" in message:
-        return "我是一个用 FastAPI 写出来的假 AI 助手，现在还没有接入真实大模型。"
-
-    if "API" in message or "api" in message:
-        return "API 是程序之间互相通信的接口，常用 JSON 传递数据。"
-
-    return f"我收到了你的消息：{message}"
+    return response.choices[0].message.content

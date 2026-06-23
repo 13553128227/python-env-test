@@ -1,31 +1,17 @@
 from fastapi import APIRouter
 
-from history_tools import load_history, save_message
+from database_tools import load_chats, save_chat
 from models import ChatRequest, ChatResponse
 from services import generate_reply
 
 router = APIRouter()
 
 
-@router.get("/")
-def home():
-    return {
-        "message": "这是拆分后的 FastAPI 服务"
-    }
-
-
-@router.get("/hello")
-def hello(name: str = "World"):
-    return {
-        "message": f"Hello, {name}"
-    }
-
-
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     reply = generate_reply(request.message)
 
-    save_message(
+    save_chat(
         user_message=request.message,
         reply=reply
     )
@@ -38,4 +24,4 @@ def chat(request: ChatRequest):
 
 @router.get("/history")
 def history():
-    return load_history()
+    return load_chats()
